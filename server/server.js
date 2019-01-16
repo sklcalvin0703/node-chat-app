@@ -16,10 +16,30 @@ var io = socketIO(server);
 app.use(express.static(publicPath)); //use the file inside public (static refer to sth wont change when every user using)
 io.on('connection', (socket)=>{
     console.log('new user connected');
+    // socket.emit('newEmail', {
+    //     from: 'mike@example.com',
+    //     text: 'hey',
+    //     createdAt: 123
+    // });
+
+    // socket.on('createEmail', (newEmail)=>{
+    //     console.log('createdEmail', newEmail);
+    // });
+    socket.on('createMessage', (message)=>{ //listener
+        console.log('createMessage', message);
+    })
+    
+    socket.emit('newMessage', {
+        from: 'john',
+        text: 'this is from server',
+        createdAt: 123
+    });
+
     socket.on('disconnect', ()=>{
         console.log('User was disconneted');
     })
 });//register a event listener
+
 
 
 server.listen(port, ()=>{
