@@ -27,13 +27,18 @@ io.on('connection', (socket)=>{
     // });
     socket.on('createMessage', (message)=>{ //listener
         console.log('createMessage', message);
+        io.emit('newMessage',{
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        })
     })
     
-    socket.emit('newMessage', {
-        from: 'john',
-        text: 'this is from server',
-        createdAt: 123
-    });
+    // socket.emit('newMessage', { //socket.emit emit an event to a single connection
+    //     from: 'john',
+    //     text: 'this is from server',
+    //     createdAt: 123
+    // });
 
     socket.on('disconnect', ()=>{
         console.log('User was disconneted');
