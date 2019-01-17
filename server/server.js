@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -32,13 +32,18 @@ io.on('connection', (socket)=>{
         io.emit('newMessage',generateMessage(message.from,message.text));
         callback('this is from the server'); //event acknowledgement
 
+
         //send to other ppl but except yourself
         // socket.broadcast.emit('newMessage',{
         //     from: message.from,
         //     text: message.text,
         //     createdAt: new Date().getTime()
         // })
-    })
+    });
+    
+    socket.on('createLocationMessage',(coords)=>{
+        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude,coords.longitude));
+    });
     
     // socket.emit('newMessage', { //socket.emit emit an event to a single connection
     //     from: 'john',
