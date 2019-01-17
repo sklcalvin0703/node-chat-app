@@ -16,8 +16,6 @@ function scrollToBottom(){
     }
 }
 socket.on('connect', function() {
-        console.log('connected to the server');
-
         // socket.emit('createEmail',{
         //     to: 'asda',
         //     text: 'test'
@@ -26,12 +24,30 @@ socket.on('connect', function() {
         //         from: 'Calvin',
         //         text: 'yoyoyo'
         // });
+        var params = jQuery.deparam(window.location.search);
+        socket.emit('join', params,function (err){  
+            if(err){
+                alert(err);
+                window.location.href = '/'; //redirect him to home page
+            }else{
+                console.log('NO error');
+            }
+        });
         
     });
 socket.on('disconnect', function() {
         console.log('disconneted from server');
             });
 
+socket.on('updateUserList', function (users){
+    var ol = jQuery('<ol></ol>');
+
+    users.forEach(function (user){
+        ol.append(jQuery('<li></li>').text(user));
+    });
+
+    jQuery('#users').html(ol); //render
+})
 // socket.on('newEmail', function(email){
 //     console.log('New Email', email);
 // });
