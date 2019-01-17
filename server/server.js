@@ -30,7 +30,7 @@ io.on('connection', (socket)=>{
     socket.on('createMessage', (message, callback)=>{ //listener
         console.log('createMessage', message);
         io.emit('newMessage',generateMessage(message.from,message.text));
-        callback('this is from the server'); //event acknowledgement
+        callback(); //event acknowledgement
 
 
         //send to other ppl but except yourself
@@ -40,7 +40,7 @@ io.on('connection', (socket)=>{
         //     createdAt: new Date().getTime()
         // })
     });
-    
+
     socket.on('createLocationMessage',(coords)=>{
         io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude,coords.longitude));
     });
