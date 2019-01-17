@@ -31,8 +31,7 @@ io.on('connection', (socket)=>{
         console.log('createMessage', message);
         io.emit('newMessage',generateMessage(message.from,message.text));
         callback(); //event acknowledgement
-
-
+        
         //send to other ppl but except yourself
         // socket.broadcast.emit('newMessage',{
         //     from: message.from,
