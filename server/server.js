@@ -27,9 +27,10 @@ io.on('connection', (socket)=>{
     // socket.on('createEmail', (newEmail)=>{
     //     console.log('createdEmail', newEmail);
     // });
-    socket.on('createMessage', (message)=>{ //listener
+    socket.on('createMessage', (message, callback)=>{ //listener
         console.log('createMessage', message);
         io.emit('newMessage',generateMessage(message.from,message.text));
+        callback('this is from the server'); //event acknowledgement
 
         //send to other ppl but except yourself
         // socket.broadcast.emit('newMessage',{
